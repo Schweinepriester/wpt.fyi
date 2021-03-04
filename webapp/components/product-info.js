@@ -3,6 +3,7 @@
  * Use of this source code is governed by a BSD-style license that can be
  * found in the LICENSE file.
  */
+
 const DisplayNames = (() => {
   let m = new Map();
   ['chrome', 'chrome-experimental'].forEach(n => m.set(n, 'Chrome'));
@@ -42,7 +43,15 @@ const AllBrowserNames = Object.freeze(['chrome', 'edge', 'firefox', 'safari', 's
 // The list of default browsers used in cases where the user has not otherwise
 // chosen a set of browsers (e.g. which browsers to show runs for). Stored as
 // an ordered list so that the first entry can be used as a consistent default.
-const DefaultBrowserNames = Object.freeze(['chrome', 'edge', 'firefox', 'safari']);
+//
+// Historically Edge was included in the default browsers, but it was removed
+// to show only one browser per engine
+// (https://github.com/web-platform-tests/wpt.fyi/issues/1519). For user
+// convenience, there is a flag to include it in the default set again.
+const DefaultBrowserNames = edgeIsDefaultProduct() 
+    ? Object.freeze(['chrome', 'edge', 'firefox', 'safari'])
+    : Object.freeze(['chrome', 'firefox', 'safari']);
+console.log(DefaultBrowserNames);
 const DefaultProductSpecs = DefaultBrowserNames;
 
 // The above sets, encoded as product objects. This avoids repeatedly calling
@@ -58,6 +67,17 @@ const SemanticLabels = [
   { property: '_channel', values: Channels },
   { property: '_source', values: Sources },
 ];
+
+function edgeIsDefaultProduct() {
+  // Preferably we would use the WPTFlags class here, but it expects to be a
+  // super-class wrapping a Polymer element to work. Instead we use our
+  // knowledge of its internal implementation to go straight to local storage.
+  const value = localStorage.getItem('features.edgeIsDefaultProduct');
+  console.log(value);
+  console.log(value !== null);
+  console.log(JSON.parse(value));
+  return value !== null && JSON.parse(value);
+}
 
 function parseProductSpec(spec) {
   // @sha (optional)

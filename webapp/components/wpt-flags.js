@@ -21,6 +21,7 @@ Object.defineProperty(wpt, 'ClientSideFeatures', {
       'colorHomepage',
       'diffFromAPI',
       'displayMetadata',
+      'edgeIsDefaultProduct',
       'experimentalByDefault',
       'experimentalAligned',
       'experimentalAlignedExceptEdge',
@@ -181,6 +182,11 @@ class WPTFlagsEditor extends FlagsEditorClass(/*environmentFlags*/ false) {
     <paper-item>
       <paper-checkbox checked="{{colorHomepage}}">
         Use pass-rate colors on the homepage
+      </paper-checkbox>
+    </paper-item>
+    <paper-item>
+      <paper-checkbox checked="{{edgeIsDefaultProduct}}">
+        Include Edge as part of the default product set.
       </paper-checkbox>
     </paper-item>
     <paper-item>
