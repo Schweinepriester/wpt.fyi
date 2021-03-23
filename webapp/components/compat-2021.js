@@ -721,6 +721,7 @@ class Compat2021FeatureChart extends PolymerElement {
   getChartOptions(containerDiv, feature) {
     const options = {
       height: 350,
+      fontSize: 14,
       tooltip: {
         trigger: 'both',
       },
